@@ -44,11 +44,13 @@ class Server:
         """ get hyper """
         dictionary = {}
         pageSize = len(self.get_page(page, page_size))
+        start_idx, end_idx = index_range(page, page_size)
+        page_prev = page - 1 if start_idx > 0 else None
+        page_next = page + 1 if end_idx < len(self.__dataset) else None
         dictionary['page_size'] = pageSize
         dictionary['page'] = page
         dictionary['data'] = self.get_page(page, page_size)
-        page_prev = page - 1 if page > 1 else None
-        dictionary['next_page'] = page + 1 if pageSize > 0 else None
+        dictionary['next_page'] = page_next
         dictionary['prev_page'] = page_prev
         total_pages = math.ceil(len(self.__dataset) / page_size)
         dictionary['total_pages'] = total_pages
