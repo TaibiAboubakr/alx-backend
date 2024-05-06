@@ -63,4 +63,3 @@ class Server:
             'data': page_data,
         }
         return infos
-        
