@@ -1,43 +1,35 @@
-#!/usr/bin/python3
-"""  class LRUCache that inherits from BaseCaching and is a caching system"""
+#!/usr/bin/env python3
+""" class LRUCache that inherits from BaseCaching and is a caching system
+"""
+from collections import OrderedDict
+
 from base_caching import BaseCaching
 
 
 class LRUCache(BaseCaching):
+    """ class LRUCache that inherits from BaseCaching and is a caching system
     """
-    class LRUCache that inherits from BaseCaching and is a caching system"""
-    array = []
-
     def __init__(self):
-        """ init """
+        """Initializes the cache.
+        """
         super().__init__()
+        self.cache_data = OrderedDict()
 
     def put(self, key, item):
-        """ put method """
-        if key and item:
-            if len(self.cache_data) >= BaseCaching.MAX_ITEMS \
-                                   and key not in self.cache_data:
-                lru_key = self.get_delete_LRU()
-                print(f"DISCARD: {lru_key}")
-                del self.cache_data[lru_key]
-            self.add_key(key)
-            self.cache_data[key] = item
+        """put an item .
+        """
+        if key and item :
+            if key not in self.cache_data:
+                if len(self.cache_data) + 1 > BaseCaching.MAX_ITEMS:
+                    lru_key, _ = self.cache_data.popitem(True)
+                    print("DISCARD:", lru_key)
+                self.cache_data[key] = item
+                self.cache_data.move_to_end(key, last=False)
+            else:
+                self.cache_data[key] = item
 
     def get(self, key):
-        """ Get method """
-        if key and key in self.cache_data:
-            self.add_key(key)
-            return self.cache_data[key]
-        return None
-
-    def add_key(self, key):
-        """ add key """
-        if key in self.array:
-            self.array.remove(key)
-        self.array.append(key)
-
-    def get_delete_LRU(self):
-        """ retrievs and delete lru key """
-        lru_key = self.array[0]
-        self.array.remove(lru_key)
-        return lru_key
+        """Get method """
+        if key is not None and key in self.cache_data:
+            self.cache_data.move_to_end(key, last=False)
+        return self.cache_data.get(key, None)
