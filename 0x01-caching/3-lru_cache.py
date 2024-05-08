@@ -4,9 +4,10 @@ from base_caching import BaseCaching
 
 
 class LRUCache(BaseCaching):
-    array = []
     """
     class LRUCache that inherits from BaseCaching and is a caching system"""
+    array = []
+
     def __init__(self):
         """ init """
         super().__init__()
