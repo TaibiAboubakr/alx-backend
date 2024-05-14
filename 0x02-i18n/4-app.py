@@ -5,7 +5,7 @@
 from flask import Flask
 from flask_babel import Babel
 from flask import render_template
-from flask import g, request
+from flask import request
 
 
 class Config(object):
